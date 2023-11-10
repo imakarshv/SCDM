@@ -18,7 +18,7 @@ class ConferenceData(db.Model):
 def main():
     if 'username' in session:
         conferences = ConferenceData.query.with_entities(ConferenceData.conference).distinct()
-        return render_template('main.html', conferences=conferences)
+        return render_template('index.html', conferences=conferences)
     else:
         return redirect(url_for('login'))
 @app.route('/submit', methods=['POST'])
