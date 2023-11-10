@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Data Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select, button {
+            margin-bottom: 16px;
+            padding: 8px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Side-by-side layout */
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Adjust the width as needed */
+        .flex-item {
+            width: 48%;
+        }
+    </style>
+</head>
+<header align="right">
+    {% if 'username' in session %}
+    <p>Welcome, {{ session['username'] }}! (<a href="{{ url_for('logout') }}">Logout</a>)</p>
+    {% else %}
+    <p >(<a href="{{ url_for('login') }}">Login</a>)</p>
+    {% endif %}
+</header>
+<body>
+    <h1>Conference Data Management</h1>
+
+    <!-- Side-by-side layout -->
+    <div class="flex-container">
+        <!-- Data Submission Form -->
+        <div class="flex-item">
+            <h2>Data Submission</h2>
+            <form action="/submit" method="post">
+                <label for="email">Email:</label>
+                <input type="email" name="email" required><br>
+                <label for="name">Name:</label>
+                <input type="text" name="name" required><br>
+                <label for="conference">Conference:</label>
+                <select name="conference" required>
+                    <option value="select">select</option>
+                    <option value="Conference 1">Conference 1</option>
+                    <option value="Conference 2">Conference 2</option>
+                    <!-- Add more options as needed -->
+                </select><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Data Retrieval Form -->
+        <div class="flex-item">
+            <h2>Data Retrieval</h2>
+            <form action="/display" method="post">
+                <label for="selected_conference">Select Conference:</label>
+                <select name="selected_conference" required>
+                    <option value="select">select</option>
+                    <option value="Conference 1">Conference 1</option>
+                    <option value="Conference 2">Conference 2</option>
+                    <!-- Add more options as needed -->
+                </select><br>
+                <button type="submit">Display Data</button>
+            </form>
+        </div>
+    </div>
+
+    {% if data %}
+        <h2>Conference Data</h2>
+        <table border="1">
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+            {% for entry in data %}
+                <tr>
+                    <td>{{ entry.email }}</td>
+                    <td>{{ entry.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    
+
+
+</body>
+</html>
